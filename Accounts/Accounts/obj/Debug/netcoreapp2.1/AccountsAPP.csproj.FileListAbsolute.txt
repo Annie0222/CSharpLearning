@@ -1,0 +1,14 @@
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\AccountsAPP.deps.json
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\AccountsAPP.runtimeconfig.json
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\AccountsAPP.runtimeconfig.dev.json
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\AccountsAPP.dll
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\AccountsAPP.pdb
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\ClassLibrary.dll
+C:\Users\sprin\source\repos\Accounts\Accounts\bin\Debug\netcoreapp2.1\ClassLibrary.pdb
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.csprojAssemblyReference.cache
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.csproj.CoreCompileInputs.cache
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.AssemblyInfoInputs.cache
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.AssemblyInfo.cs
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.csproj.CopyComplete
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.dll
+C:\Users\sprin\source\repos\Accounts\Accounts\obj\Debug\netcoreapp2.1\AccountsAPP.pdb

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountsAPP", "Accounts\AccountsAPP.csproj", "{58154E31-B5BC-42BF-B89B-D747979D68E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{B2DB4329-16AE-4931-8124-1411734DC344}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58154E31-B5BC-42BF-B89B-D747979D68E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58154E31-B5BC-42BF-B89B-D747979D68E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58154E31-B5BC-42BF-B89B-D747979D68E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58154E31-B5BC-42BF-B89B-D747979D68E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2DB4329-16AE-4931-8124-1411734DC344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2DB4329-16AE-4931-8124-1411734DC344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2DB4329-16AE-4931-8124-1411734DC344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2DB4329-16AE-4931-8124-1411734DC344}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {266C7446-1B6B-4970-A274-CA73FF39F58C}
+	EndGlobalSection
+EndGlobal
