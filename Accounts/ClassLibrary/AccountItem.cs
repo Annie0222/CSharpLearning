@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace ClassLibrary
 {
@@ -11,8 +12,19 @@ namespace ClassLibrary
         public DateTime OccuredTime { get; set; }
         public string Content { get; set; }
         public string Note { get; set; }
+        public static DateTimeFormatInfo OccuredTimeFormat
+        {
+            get
+            {
+                DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
+                dtFormat.ShortDatePattern = "yyyy/MM/dd";
+                dtFormat.LongDatePattern = "yyyy/MM/dd hh:mm";
+                return dtFormat;
+            }
+        }
 
         // Constructor
+        internal AccountItem(string name) : this(name, Category.Spending) { }
         public AccountItem(string name, Category category) : this(name, category, new Money(), DateTime.Now) { }
         public AccountItem(string name, string category) : this(name, ConvertStringToCategory(category), new Money(), DateTime.Now) { }
         public AccountItem(string name, string category, Money amount, DateTime occoredTime, string content = "", string note = ""):this (name,ConvertStringToCategory(category),amount,occoredTime,content,note) { }
@@ -31,17 +43,38 @@ namespace ClassLibrary
             string toString = $"Name: { Name}\n";
             toString += Category == Category.Spending ? "Category: Spending\n" : "Category: Income\n";
             toString += $"Amount: {Amount}\n";
-            toString += $"OccuredTime: {OccuredTime:yyyy/MM/dd}\n";
+            toString += $"OccuredTime: {OccuredTime:yyyy/MM/dd hh:mm}\n";
             toString += $"Content: {Content}\n";
             toString += $"Note: {Note}";
             return toString;
         }
 
-        private static Category ConvertStringToCategory(string category)
+        public bool IsSpending()
         {
-            if (category == "Income") return Category.Income;
-            else return Category.Spending;
+            return this.Category == Category.Spending;
         }
 
+        public bool IsIncome()
+        {
+            return this.Category == Category.Income;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as AccountItem);
+        }
+
+        public bool Equals(AccountItem accountItem)
+        {
+            return this.Name == accountItem.Name;
+        }
+
+        private static Category ConvertStringToCategory(string category)
+        {
+            if (category == null) throw new Exception("Empty category string.");
+            if ("income" == category.ToLower()) return Category.Income;
+            if ("spending"==category.ToLower()) return Category.Spending;
+            throw new Exception("Invalid category type.");
+        }
     }
 }

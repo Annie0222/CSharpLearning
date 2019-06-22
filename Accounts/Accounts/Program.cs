@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using ClassLibrary;
 
 namespace AccountsAPP
@@ -8,57 +9,58 @@ namespace AccountsAPP
         private static void AddAccountItem(Accounts accounts)
         {
             Console.WriteLine("Please fill follow part of your account item");
-            Console.Write("\tName: ");
-            string name = Console.ReadLine();
+            string name = "";
+            do
+            {
+                Console.Write("\tName: ");
+                name = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(name))
+                {
+                    Console.WriteLine("Name can't be empty or only whitespace.");
+                }
+            } while (String.IsNullOrWhiteSpace(name) || accounts.IsDuplicateAccountItemName(name));
             string category = "";
             do
             {
                 Console.Write("\tCategory (Spending or Income): ");
                 category = Console.ReadLine();
-                if (category != "Spending" && category != "Income")
-                {
-                    Console.WriteLine("Wrong Input!");
-                }
-            } while (category != "Spending" && category != "Income");
+            } while (!accounts.IsCategoryInputValid(category));
             string currency = "";
             do
             {
                 Console.Write("\tCurrency(RMB, EUR or USD): ");
                 currency = Console.ReadLine();
-                if (currency != "RMB" && currency != "EUR" && currency != "USD")
+            } while (!accounts.IsCurrencyInputValid(currency));
+            Console.Write("\tAmount: ");
+            double faceValue = 0;
+            double.TryParse(Console.ReadLine(),out faceValue);
+            DateTime occuredTime=default;
+            do {
+                Console.Write("\tTime (yyyy/mm/dd [hh:mm]): ");
+                try
                 {
-                    Console.WriteLine("Wrong Input!");
-                } else
-                {
+                    occuredTime = Convert.ToDateTime(Console.ReadLine(), AccountItem.OccuredTimeFormat);
                     break;
+                } catch 
+                {
+                    Console.WriteLine($"Invalid occured time format. Correct format can be {AccountItem.OccuredTimeFormat.LongDatePattern} or {AccountItem.OccuredTimeFormat.ShortDatePattern}.");
                 }
             } while (true);
-            Console.Write("\tAmount: ");
-            double faceValue = double.Parse(Console.ReadLine());
-            string[] occuredTime={""};
-            do {
-                Console.Write("\tTime (yyyy/mm/dd): ");
-                occuredTime = Console.ReadLine().Split('/');
-                if (occuredTime.Length != 3)
-                {
-                    Console.WriteLine("Wrong format!");
-                }
-            } while (occuredTime.Length != 3);
             Console.Write("\tContent (If applicable): ");
             string content = Console.ReadLine();
             Console.Write("\tNote (If applicable): ");
             string note = Console.ReadLine();
 
-            accounts.AddAccountItem(new AccountItem(name, category, new Money(faceValue, currency), new DateTime(int.Parse(occuredTime[0]), int.Parse(occuredTime[1]), int.Parse(occuredTime[2])), content, note));
-            Console.WriteLine("Account item added successfully.");
+            accounts.Add(new AccountItem(name, category, new Money(faceValue, currency), occuredTime, content, note));
+            Console.WriteLine($"Account item {name} added successfully.");
     }
         private static void RemoveAccountItem(Accounts accounts)
         {
             Console.Write("The name of account item that you want to delete:");
             string name = Console.ReadLine();
-            if (!accounts.RemoveAccountItem(name))
+            if (!accounts.Remove(name))
             {
-                Console.WriteLine($"There is no account item named{name} in the accouts");
+                Console.WriteLine($"There is no account item named {name} in the accounts");
             } else
             {
                 Console.WriteLine("Account item deleted successfully.");
@@ -132,11 +134,11 @@ namespace AccountsAPP
         public static void Main(string[] args)
         {
             Accounts accounts = new Accounts();
-            accounts.AddAccountItem(new AccountItem("Salary", Category.Income, new Money(8000, Currency.RMB), new DateTime(2019, 5, 26)));
-            accounts.AddAccountItem(new AccountItem("Cloth", Category.Spending, new Money(300, Currency.RMB), new DateTime(2019, 5, 30)));
-            accounts.AddAccountItem(new AccountItem("Fruit", Category.Spending, new Money(50, Currency.RMB), new DateTime(2019, 6, 2)));
-            accounts.AddAccountItem(new AccountItem("Bonus", Category.Income, new Money(100, Currency.USD), new DateTime(2019, 6, 5)));
-            accounts.AddAccountItem(new AccountItem("Shoes", Category.Spending, new Money(500, Currency.RMB), new DateTime(2019, 6, 18)));
+            accounts.Add(new AccountItem("Salary", Category.Income, new Money(8000, Currency.RMB), new DateTime(2019, 5, 26)));
+            accounts.Add(new AccountItem("Cloth", Category.Spending, new Money(300, Currency.RMB), new DateTime(2019, 5, 30)));
+            accounts.Add(new AccountItem("Fruit", Category.Spending, new Money(50, Currency.RMB), new DateTime(2019, 6, 2)));
+            accounts.Add(new AccountItem("Bonus", Category.Income, new Money(100, Currency.USD), new DateTime(2019, 6, 5)));
+            accounts.Add(new AccountItem("Shoes", Category.Spending, new Money(500, Currency.RMB), new DateTime(2019, 6, 18)));
 
             Console.WriteLine("Hello, Welcome to the Accounts APP!");
             while (true)

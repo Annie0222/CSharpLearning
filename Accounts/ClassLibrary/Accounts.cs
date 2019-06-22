@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ClassLibrary.Extensions;
 
 namespace ClassLibrary
 {
@@ -13,9 +14,12 @@ namespace ClassLibrary
         /// Add one account item.
         /// </summary>
         /// <param name="accountItem">The item to add.</param>
-        public void AddAccountItem(AccountItem accountItem)
+        public void Add(AccountItem accountItem)
         {
-            accountItemList.Add(accountItem);
+            if (accountItem != null)
+            {
+                accountItemList.Add(accountItem);
+            }
         }
 
         /// <summary>
@@ -23,16 +27,9 @@ namespace ClassLibrary
         /// </summary>
         /// <param name="accountItem">The item to delete.</param>
         /// <returns>Whether the item is removed successfully or not.</returns>
-        public bool RemoveAccountItem(string accountItemName)
+        public bool Remove(string accountItemName)
         {
-            foreach (var accountItem in accountItemList)
-            {
-                if (accountItem.Name == accountItemName)
-                {
-                    return accountItemList.Remove(accountItem);
-                }
-            }
-            return false;
+            return accountItemList.Remove(new AccountItem(accountItemName));
         }
 
         /// <summary>
@@ -52,15 +49,7 @@ namespace ClassLibrary
         /// <returns>Total expenditure of given month.</returns>
         public Money TotalExpenditure(DateTime dateTime)
         {
-            Money totalExpenditure = new Money();
-            foreach (AccountItem accountItem in accountItemList)
-            {
-                if (accountItem.OccuredTime.Year == dateTime.Year && accountItem.OccuredTime.Month == dateTime.Month && accountItem.Category == Category.Spending)
-                {
-                    totalExpenditure = totalExpenditure + accountItem.Amount;
-                }
-            }
-            return totalExpenditure;
+            return Calculate(ai => ai.OccuredTime.SameMonthOfSameYear(dateTime) && ai.IsSpending());
         }
 
         /// <summary>
@@ -70,15 +59,7 @@ namespace ClassLibrary
         /// <returns>Total income of given month.</returns>
         public Money TotalIncome(DateTime dateTime)
         {
-            Money totalIncome = new Money();
-            foreach (AccountItem accountItem in accountItemList)
-            {
-                if (accountItem.OccuredTime.Year == dateTime.Year && accountItem.OccuredTime.Month == dateTime.Month && accountItem.Category == Category.Income)
-                {
-                    totalIncome = totalIncome + accountItem.Amount;
-                }
-            }
-            return totalIncome;
+            return Calculate(ai => ai.OccuredTime.SameMonthOfSameYear(dateTime) && ai.IsIncome());
         }
 
         /// <summary>
@@ -96,5 +77,56 @@ namespace ClassLibrary
                 }
             }
         }
+
+        public bool IsDuplicateAccountItemName(string accountItemName)
+        {
+            if (accountItemList.Contains(new AccountItem(accountItemName)))
+            {
+                Console.WriteLine($"Account Item {accountItemName} is already exist. Please give another name.");
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsCategoryInputValid(string category)
+        {
+            category = category.ToLower();
+            return IsInputValid<string>(category, (cat) => cat == "spending" || cat == "income");
+        }
+        public bool IsCurrencyInputValid(string currency)
+        {
+            currency = currency.ToUpper();
+            return IsInputValid<string>(currency, (cur) => cur == "RMB" || cur == "EUR" || cur == "USD");
+        }
+        public bool IsOccuredTimeInputValid(string[] occuredTime)
+        {
+            return IsInputValid<string[]>(occuredTime, ot => ot.Length != 3);
+        }
+
+        
+        #region Help method
+        private Money Calculate(Func<AccountItem, bool> func)
+        {
+            Money totalIncome = new Money();
+            foreach (AccountItem accountItem in accountItemList)
+            {
+                if (func(accountItem))
+                {
+                    totalIncome = totalIncome + accountItem.Amount;
+                }
+            }
+            return totalIncome;
+        }
+
+        private bool IsInputValid<T>(T input, Predicate<T> func)
+        {
+            if (!func(input))
+            {
+                Console.WriteLine($"Invalid Input {input.GetType()} format!");
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }
