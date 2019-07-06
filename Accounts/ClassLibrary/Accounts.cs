@@ -8,7 +8,7 @@ namespace ClassLibrary
     public class Accounts
     {
         // Field
-        private List<AccountItem> accountItemList = new List<AccountItem>();
+        public List<AccountItem> accountItemList = new List<AccountItem>();
 
         /// <summary>
         /// Add one account item.
@@ -19,6 +19,15 @@ namespace ClassLibrary
             if (accountItem != null)
             {
                 accountItemList.Add(accountItem);
+            }
+        }
+
+        public void Edit(AccountItem accountItem)
+        {
+            int index = accountItemList.IndexOf(accountItem);
+            if (index >= 0)
+            {
+                accountItemList[index] = accountItem;
             }
         }
 
@@ -76,6 +85,11 @@ namespace ClassLibrary
                     yield return accountItem;
                 }
             }
+        }
+
+        public List<AccountItem> GetAccountItems()
+        {
+            return accountItemList;
         }
 
         public bool IsDuplicateAccountItemName(string accountItemName)

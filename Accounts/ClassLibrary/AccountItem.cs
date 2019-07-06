@@ -41,12 +41,17 @@ namespace ClassLibrary
         public override string ToString()
         {
             string toString = $"Name: { Name}\n";
-            toString += Category == Category.Spending ? "Category: Spending\n" : "Category: Income\n";
+            toString += $"Category: {Category}\n";
             toString += $"Amount: {Amount}\n";
             toString += $"OccuredTime: {OccuredTime:yyyy/MM/dd hh:mm}\n";
             toString += $"Content: {Content}\n";
             toString += $"Note: {Note}";
             return toString;
+        }
+
+        public string ToCsvFormatString()
+        {
+            return $"{ Name};{Category};{Amount};{OccuredTime:yyyy/MM/dd hh:mm};{Content};{Note}";
         }
 
         public bool IsSpending()

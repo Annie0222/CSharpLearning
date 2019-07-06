@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class Money
+    public struct Money
     {
         const double EURTORMBRATE = 7.7562;
         const double USDTORMBRATE = 6.9258;
@@ -13,7 +13,6 @@ namespace ClassLibrary
         public Currency currency { get;  }
 
         // Constructor
-        public Money() : this(0, Currency.RMB) { }
         public Money(double faceValue,string currency) : this(faceValue, ConvertStringToCurrency(currency)) { }
         public Money(double faceValue,Currency currency)
         {
